@@ -1,6 +1,6 @@
 import "server-only";
 import { siteConfig } from "@/config/site";
-import { SERVICE_OPTIONS, type QuoteFields } from "@/lib/offerte";
+import { SERVICE_OPTIONS, META_FIELDS, type QuoteFields } from "@/lib/offerte";
 
 interface Attachment {
   filename: string;
@@ -38,6 +38,23 @@ const LABELS: Record<keyof QuoteFields, string> = {
   oven: "Oven reinigen",
   koelkast: "Koelkast reinigen",
   ramen: "Ramen reinigen",
+  staat: "Huidige situatie",
+  omvang: "Omvang",
+  ruimtes: "Te onderhouden ruimtes",
+  zones: "Te reinigen zones",
+  bedrijfstype: "Type kantoor of bedrijf",
+  werkplekken: "Aantal werkplekken",
+  sanitair: "Sanitair",
+  keuken: "Keuken of kitchenette",
+  brand: "Merk",
+  leadType: "Type lead",
+  landingPage: "Landingspagina",
+  utmSource: "utm_source",
+  utmMedium: "utm_medium",
+  utmCampaign: "utm_campaign",
+  utmContent: "utm_content",
+  utmTerm: "utm_term",
+  gclid: "gclid",
 };
 
 const ORDER: Array<keyof QuoteFields> = [
@@ -59,6 +76,14 @@ const ORDER: Array<keyof QuoteFields> = [
   "inboedel",
   "datumPlaatsbeschrijving",
   "datumSleuteloverdracht",
+  "bedrijfstype",
+  "werkplekken",
+  "sanitair",
+  "keuken",
+  "ruimtes",
+  "zones",
+  "omvang",
+  "staat",
   "oven",
   "koelkast",
   "ramen",
@@ -80,8 +105,13 @@ function displayValue(key: keyof QuoteFields, value: string): string {
   return SERVICE_OPTIONS.find((option) => option.value === value)?.label ?? value;
 }
 
-function buildHtml(fields: QuoteFields, photoCount: number): string {
-  const rows = ORDER.filter((key) => fields[key] && fields[key].trim() !== "")
+/** Bouwt de tabelrijen voor een lijst velden, lege waarden overgeslagen. */
+function rowsFor(
+  fields: QuoteFields,
+  keys: ReadonlyArray<keyof QuoteFields>,
+): string {
+  return keys
+    .filter((key) => fields[key] && fields[key].trim() !== "")
     .map((key) => {
       const value = escapeHtml(displayValue(key, fields[key])).replace(
         /\n/g,
@@ -93,12 +123,19 @@ function buildHtml(fields: QuoteFields, photoCount: number): string {
       </tr>`;
     })
     .join("");
+}
+
+function buildHtml(fields: QuoteFields, photoCount: number): string {
+  const rows = rowsFor(fields, ORDER);
+  const metaRows = rowsFor(fields, META_FIELDS);
+  // Een aanvraag via een advertentiepagina vermeldt zijn eigen herkomst.
+  const source = fields.landingPage
+    ? `Via het formulier op ${escapeHtml(siteConfig.url)}${escapeHtml(fields.landingPage)}`
+    : `Via het offerteformulier op ${escapeHtml(siteConfig.url)}/offerte`;
 
   return `<div style="font-family:Arial,Helvetica,sans-serif;max-width:640px;">
     <h2 style="color:#0e3a4a;margin:0 0 4px;">Nieuwe offerte-aanvraag</h2>
-    <p style="color:#5a6b72;margin:0 0 18px;">Via het offerteformulier op ${escapeHtml(
-      siteConfig.url,
-    )}/offerte</p>
+    <p style="color:#5a6b72;margin:0 0 18px;">${source}</p>
     <table style="border-collapse:collapse;font-size:14px;">${rows}</table>
     <p style="color:#5a6b72;font-size:13px;margin:18px 0 0;">
       ${
@@ -107,6 +144,14 @@ function buildHtml(fields: QuoteFields, photoCount: number): string {
           : "Geen foto's meegestuurd."
       }
     </p>
+    ${
+      metaRows
+        ? `<div style="margin-top:22px;padding-top:14px;border-top:1px solid #dbe7ec;">
+      <p style="color:#5a6b72;font-size:12px;text-transform:uppercase;letter-spacing:0.08em;margin:0 0 8px;">Herkomst van de aanvraag</p>
+      <table style="border-collapse:collapse;font-size:13px;">${metaRows}</table>
+    </div>`
+        : ""
+    }
   </div>`;
 }
 

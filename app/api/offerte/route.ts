@@ -2,6 +2,8 @@ import { NextResponse } from "next/server";
 import {
   validateQuote,
   blocksForService,
+  META_FIELDS,
+  MAX_META_LENGTH,
   HONEYPOT_FIELD,
   MIN_FILL_MS,
   PHOTO_ACCEPT,
@@ -62,6 +64,19 @@ export async function POST(request: Request) {
   (Object.keys(EMPTY_QUOTE) as Array<keyof QuoteFields>).forEach((key) => {
     fields[key] = str(form, key);
   });
+
+  // Herkomstvelden komen uit de URL en zijn dus bezoekersinvoer: ze worden
+  // nooit vertrouwd, enkel begrensd meegestuurd voor de rapportage.
+  META_FIELDS.forEach((key) => {
+    fields[key] = fields[key].slice(0, MAX_META_LENGTH);
+  });
+  // Enkel een eigen landingspad telt als herkomst; al de rest valt weg.
+  if (!/^\/lp\/[a-z0-9-]+$/.test(fields.landingPage)) {
+    fields.landingPage = "";
+  }
+  // Merk en leadtype worden server-side bepaald, niet door de client.
+  fields.brand = "schoonmaakklaar";
+  fields.leadType = fields.landingPage ? "ppc" : "organisch";
 
   // Server-side validatie is de bron van waarheid.
   const errors = validateQuote(fields);

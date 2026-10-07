@@ -127,7 +127,46 @@ export interface QuoteFields {
   oven: string;
   koelkast: string;
   ramen: string;
+  // Extra kwalificatievelden, gebruikt door de PPC-landingspagina's
+  staat: string;
+  omvang: string;
+  ruimtes: string;
+  zones: string;
+  bedrijfstype: string;
+  werkplekken: string;
+  sanitair: string;
+  keuken: string;
+  // Herkomst van de aanvraag — zie META_FIELDS
+  brand: string;
+  leadType: string;
+  landingPage: string;
+  utmSource: string;
+  utmMedium: string;
+  utmCampaign: string;
+  utmContent: string;
+  utmTerm: string;
+  gclid: string;
 }
+
+/**
+ * Velden die niets over de opdracht zeggen maar over de herkomst van de lead.
+ * Ze worden apart gehouden: in de lead-mail staan ze onderaan in een eigen
+ * blok, en ze tellen niet mee in de inhoudelijke validatie.
+ */
+export const META_FIELDS = [
+  "brand",
+  "leadType",
+  "landingPage",
+  "utmSource",
+  "utmMedium",
+  "utmCampaign",
+  "utmContent",
+  "utmTerm",
+  "gclid",
+] as const satisfies ReadonlyArray<keyof QuoteFields>;
+
+/** Maximale lengte van een herkomstveld. Houdt vervuilde URL's uit de mail. */
+export const MAX_META_LENGTH = 200;
 
 export const EMPTY_QUOTE: QuoteFields = {
   naam: "",
@@ -153,6 +192,23 @@ export const EMPTY_QUOTE: QuoteFields = {
   oven: "",
   koelkast: "",
   ramen: "",
+  staat: "",
+  omvang: "",
+  ruimtes: "",
+  zones: "",
+  bedrijfstype: "",
+  werkplekken: "",
+  sanitair: "",
+  keuken: "",
+  brand: "",
+  leadType: "",
+  landingPage: "",
+  utmSource: "",
+  utmMedium: "",
+  utmCampaign: "",
+  utmContent: "",
+  utmTerm: "",
+  gclid: "",
 };
 
 /** Welke conditionele blokken bij een gekozen dienst horen. */

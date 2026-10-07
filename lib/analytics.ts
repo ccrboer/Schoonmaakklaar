@@ -8,7 +8,14 @@ export type TrackEvent =
   | "offerte_submit"
   | "phone_click"
   | "whatsapp_click"
-  | "email_click";
+  | "email_click"
+  // Advertentie-landingspagina's
+  | "landing_page_view"
+  | "primary_cta_click"
+  | "form_start"
+  | "form_submit_success"
+  | "photo_upload"
+  | "intake_requested";
 
 type GtagWindow = Window & {
   gtag?: (command: string, event: string, params?: Record<string, unknown>) => void;
