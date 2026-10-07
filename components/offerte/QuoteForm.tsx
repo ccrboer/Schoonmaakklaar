@@ -1,7 +1,13 @@
 "use client";
 
-import { useEffect, useId, useRef, useState } from "react";
-import { useRouter, useSearchParams } from "next/navigation";
+import {
+  useEffect,
+  useId,
+  useRef,
+  useState,
+  useSyncExternalStore,
+} from "react";
+import { useRouter } from "next/navigation";
 import { Upload, X, LoaderCircle, CircleAlert } from "lucide-react";
 import {
   validateQuote,
@@ -46,6 +52,18 @@ function formatBytes(bytes: number) {
   return `${(bytes / (1024 * 1024)).toFixed(1)} MB`;
 }
 
+/** De querystring als externe bron: leeg tijdens prerender, echt na hydratatie. */
+function subscribeToUrl(onChange: () => void) {
+  window.addEventListener("popstate", onChange);
+  return () => window.removeEventListener("popstate", onChange);
+}
+function readSearch() {
+  return window.location.search;
+}
+function readNoSearch() {
+  return "";
+}
+
 /**
  * Offerteformulier met conditionele velden: de vragen volgen de gekozen
  * dienst, zodat niemand irrelevante velden hoeft in te vullen. De dienst kan
@@ -54,7 +72,6 @@ function formatBytes(bytes: number) {
  */
 export function QuoteForm() {
   const router = useRouter();
-  const searchParams = useSearchParams();
   const uid = useId();
   const fileInputRef = useRef<HTMLInputElement>(null);
   const startedAt = useRef(0);
@@ -73,9 +90,12 @@ export function QuoteForm() {
   }, []);
 
   // Voorselectie vanuit de URL (bv. /offerte?dienst=plaatsbeschrijving).
-  // Tijdens de render bijgesteld: dat is de aangeraden manier om state af te
-  // leiden uit props of URL zonder extra render-cyclus.
-  const intent = searchParams.get("dienst") ?? "";
+  // De querystring komt via useSyncExternalStore binnen: op de server leeg, na
+  // hydratatie de echte waarde. useSearchParams kan hier niet, want op een
+  // statische pagina blijft de component dan in de Suspense-fallback hangen en
+  // hydrateert het formulier nooit.
+  const search = useSyncExternalStore(subscribeToUrl, readSearch, readNoSearch);
+  const intent = new URLSearchParams(search).get("dienst") ?? "";
   const [appliedIntent, setAppliedIntent] = useState<string | null>(null);
   if (appliedIntent !== intent) {
     setAppliedIntent(intent);

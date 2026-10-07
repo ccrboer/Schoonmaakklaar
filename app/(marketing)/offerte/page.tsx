@@ -1,5 +1,4 @@
 import type { Metadata } from "next";
-import { Suspense } from "react";
 import Link from "next/link";
 import {
   Check,
@@ -125,13 +124,9 @@ export default function OffertePage() {
       <section className="bg-surface pb-16 lg:pb-20">
         <div className="mx-auto grid max-w-6xl gap-8 px-4 sm:px-6 lg:grid-cols-[1.6fr_1fr] lg:gap-10 lg:px-8">
           <div className="rounded-3xl border border-hairline bg-white p-5 shadow-soft sm:p-8 lg:p-10">
-            <Suspense
-              fallback={
-                <p className="text-sm text-ink-muted">Formulier laden…</p>
-              }
-            >
-              <QuoteForm />
-            </Suspense>
+            {/* Geen Suspense: het formulier leest de URL pas na hydratatie,
+                zodat de volledige HTML meteen in de pagina staat. */}
+            <QuoteForm />
           </div>
 
           <aside className="space-y-6 lg:sticky lg:top-24 lg:self-start">
