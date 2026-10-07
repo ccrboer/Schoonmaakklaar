@@ -3,6 +3,7 @@ import Link from "next/link";
 import { CircleCheck, ArrowLeft, Check } from "lucide-react";
 import { WhatsAppButton } from "@/components/conversion/WhatsAppButton";
 import { CallButton } from "@/components/conversion/CallButton";
+import { hasWhatsApp, contactSentence } from "@/config/site";
 
 const BEDANKT_WHATSAPP_MESSAGE =
   "Hallo, ik heb net een offerte aangevraagd via de website en wil graag nog extra foto's of informatie doorsturen.";
@@ -38,7 +39,11 @@ export default function BedanktPage() {
         <p className="mt-4 max-w-xl text-base leading-relaxed text-ink-muted sm:text-lg">
           Wij nemen zo snel mogelijk contact met u op, meestal binnen één
           werkdag. Wilt u ondertussen nog foto&apos;s of extra informatie
-          doorsturen? Dat kan eenvoudig via WhatsApp.
+          doorsturen?{" "}
+          {/* Verwijs enkel naar een kanaal dat effectief ingesteld is. */}
+          {hasWhatsApp
+            ? "Dat kan eenvoudig via WhatsApp."
+            : `Dat kan ${contactSentence()}.`}
         </p>
 
         <ul className="mt-8 w-full space-y-3 rounded-2xl border border-hairline bg-white p-6 text-left shadow-soft">
