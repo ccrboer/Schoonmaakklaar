@@ -108,9 +108,15 @@ export function Footer() {
           <p>
             © {year} {contact.legalName}. Alle rechten voorbehouden.
           </p>
-          {contact.vat && (
+          {(contact.companyNumber || contact.vat) && (
             <p>
-              {contact.legalName} · BTW {contact.vat}
+              {[
+                contact.legalName,
+                contact.companyNumber && `Ondernemingsnummer ${contact.companyNumber}`,
+                contact.vat && `BTW ${contact.vat}`,
+              ]
+                .filter(Boolean)
+                .join(" · ")}
             </p>
           )}
         </div>
