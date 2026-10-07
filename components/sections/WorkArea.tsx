@@ -1,6 +1,6 @@
 import Link from "next/link";
 import { MapPin, ArrowRight } from "lucide-react";
-import { localPages, serviceAreaCities } from "@/config/local-pages";
+import { hubLocalPages, serviceAreaCities } from "@/config/local-pages";
 import { WhatsAppButton } from "@/components/conversion/WhatsAppButton";
 
 interface WorkAreaProps {
@@ -82,7 +82,7 @@ export function WorkArea({ background = "surface", id }: WorkAreaProps) {
           </div>
 
           <ul className="mt-5 divide-y divide-hairline">
-            {localPages.map((page) => (
+            {hubLocalPages.map((page) => (
               <li key={page.path}>
                 <Link
                   href={page.path}

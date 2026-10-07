@@ -197,10 +197,16 @@ export interface LocalPageData {
   /** Voor wie deze pagina bedoeld is. */
   forWho: string[];
   processSteps: ProcessStep[];
+  /** Wat de prijs bepaalt — geen tarieven, wel de factoren. */
+  priceFactors: string[];
+  /** Waarom met ons werken, in de context van deze dienst. */
+  whyUs: string[];
   /** "Ook actief in de omgeving". */
   nearbyAreas: string[];
   /** Interne links naar hoofddiensten en andere lokale pagina's. */
   relatedLinks: LocalLink[];
+  /** Andere diensten die wij in dezelfde gemeente aanbieden. */
+  sameCityLinks: LocalLink[];
   faq: FaqItem[];
 
   whatsappMessage: string;

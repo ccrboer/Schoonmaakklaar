@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { Check, ArrowRight, MapPin } from "lucide-react";
+import { Check, ArrowRight, MapPin, Euro, ShieldCheck } from "lucide-react";
 import type { LocalPageData } from "@/types";
 import { WhatsAppButton } from "@/components/conversion/WhatsAppButton";
 import { Faq } from "@/components/sections/Faq";
@@ -105,7 +105,7 @@ export function LocalSeoPageTemplate({ page }: LocalSeoPageTemplateProps) {
                 Lokaal
               </p>
               <h2 className="mt-3 text-2xl leading-tight text-brand sm:text-3xl">
-                Waar we op letten in {page.locationName}
+                Waar we rekening mee houden in {page.locationName}
               </h2>
               <p className="mt-4 text-base leading-relaxed text-ink-muted">
                 {page.localContext}
@@ -245,8 +245,61 @@ export function LocalSeoPageTemplate({ page }: LocalSeoPageTemplateProps) {
         </div>
       </section>
 
-      {/* Ook actief in de omgeving */}
+      {/* Wat bepaalt de prijs? + waarom wij */}
       <section className="bg-white">
+        <div className="mx-auto grid max-w-5xl gap-10 px-4 py-16 sm:px-6 lg:grid-cols-2 lg:gap-12 lg:px-8 lg:py-20">
+          <div data-reveal>
+            <h2 className="text-2xl leading-tight text-brand sm:text-3xl">
+              Wat bepaalt de prijs?
+            </h2>
+            <p className="mt-4 text-base leading-relaxed text-ink-muted">
+              Wij zetten bewust geen tarieven op de site. Twee panden van
+              dezelfde grootte kunnen een heel verschillende opdracht zijn.
+              Deze factoren wegen mee:
+            </p>
+            <ul className="mt-5 space-y-3">
+              {page.priceFactors.map((item) => (
+                <li key={item} className="flex items-start gap-3">
+                  <Euro
+                    className="mt-0.5 h-4 w-4 shrink-0 text-accent-dark"
+                    aria-hidden="true"
+                  />
+                  <span className="text-sm leading-relaxed text-ink">
+                    {item}
+                  </span>
+                </li>
+              ))}
+            </ul>
+          </div>
+
+          <div
+            className="rounded-3xl border border-hairline bg-surface p-6 sm:p-7"
+            data-reveal
+            style={{ ["--reveal-delay" as string]: "100ms" }}
+          >
+            <h2 className="font-display text-lg font-bold text-brand">
+              Waarom SchoonmaakKlaar?
+            </h2>
+            <ul className="mt-5 space-y-3.5">
+              {page.whyUs.map((item) => (
+                <li
+                  key={item}
+                  className="flex items-start gap-3 text-sm leading-relaxed text-ink-muted"
+                >
+                  <ShieldCheck
+                    className="mt-0.5 h-4 w-4 shrink-0 text-accent-dark"
+                    aria-hidden="true"
+                  />
+                  {item}
+                </li>
+              ))}
+            </ul>
+          </div>
+        </div>
+      </section>
+
+      {/* Ook actief in de omgeving */}
+      <section className="bg-surface">
         <div className="mx-auto max-w-5xl px-4 py-16 sm:px-6 lg:px-8 lg:py-20">
           <div className="max-w-2xl" data-reveal>
             <h2 className="text-2xl leading-tight text-brand sm:text-3xl">
@@ -272,8 +325,36 @@ export function LocalSeoPageTemplate({ page }: LocalSeoPageTemplateProps) {
       </section>
 
       {/* Gerelateerde diensten */}
-      <section className="bg-surface">
+      <section className="bg-white">
         <div className="mx-auto max-w-6xl px-4 py-16 sm:px-6 lg:px-8 lg:py-20">
+          {page.sameCityLinks.length > 0 && (
+            <div className="mb-12" data-reveal>
+              <h2 className="max-w-2xl text-2xl leading-tight text-brand sm:text-3xl">
+                Ook in {page.locationName}
+              </h2>
+              <p className="mt-3 max-w-2xl text-base leading-relaxed text-ink-muted">
+                Verwante diensten die wij in dezelfde gemeente verzorgen.
+              </p>
+              <div className="mt-6 grid gap-4 sm:grid-cols-2">
+                {page.sameCityLinks.map((link) => (
+                  <Link
+                    key={link.href}
+                    href={link.href}
+                    className="group flex items-center justify-between gap-3 rounded-2xl border border-hairline bg-surface p-5 transition-colors hover:border-accent hover:bg-white"
+                  >
+                    <span className="text-sm font-semibold text-brand">
+                      {link.label}
+                    </span>
+                    <ArrowRight
+                      className="h-4 w-4 shrink-0 text-brand-light transition-transform group-hover:translate-x-1"
+                      aria-hidden="true"
+                    />
+                  </Link>
+                ))}
+              </div>
+            </div>
+          )}
+
           <h2
             className="max-w-2xl text-2xl leading-tight text-brand sm:text-3xl"
             data-reveal

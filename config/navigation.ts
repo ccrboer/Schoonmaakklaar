@@ -1,6 +1,6 @@
 import type { NavGroup, NavItem } from "@/types";
 import { services } from "./services";
-import { localPages } from "./local-pages";
+import { hubLocalPages } from "./local-pages";
 
 /**
  * Hoofdnavigatie in de header. "Diensten" klapt open met de diensten uit
@@ -48,7 +48,7 @@ export const footerNav: NavGroup[] = [
   },
   {
     title: "Regio Antwerpen",
-    items: localPages.map((page) => ({
+    items: hubLocalPages.map((page) => ({
       label: `${page.serviceName} ${page.locationName}`,
       href: page.path,
     })),
