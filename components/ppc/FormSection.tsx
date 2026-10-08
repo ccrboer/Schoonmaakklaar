@@ -1,4 +1,4 @@
-import { Check } from "lucide-react";
+import { FeatureList } from "@/components/ui/FeatureList";
 import { LeadForm } from "@/components/ppc/LeadForm";
 import { OfferCard } from "@/components/ppc/OfferCard";
 import type { PpcPageConfig } from "@/config/ppc-pages";
@@ -50,20 +50,7 @@ export function FormSection({
               <h3 className="font-display text-lg font-bold text-white">
                 {aside.title}
               </h3>
-              <ul className="mt-5 space-y-3">
-                {aside.points.map((point) => (
-                  <li
-                    key={point}
-                    className="flex items-start gap-2.5 text-sm leading-relaxed text-white/80"
-                  >
-                    <Check
-                      className="mt-0.5 h-4 w-4 shrink-0 text-accent"
-                      aria-hidden="true"
-                    />
-                    {point}
-                  </li>
-                ))}
-              </ul>
+              <FeatureList items={aside.points} tone="dark" className="mt-5" />
             </div>
 
             {page.offer && <OfferCard offer={page.offer} tone="dark" />}

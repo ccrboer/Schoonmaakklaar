@@ -15,8 +15,12 @@ export default function MarketingLayout({
   return (
     <>
       <Header />
-      <main className="flex-1 pb-16 lg:pb-0">{children}</main>
-      <Footer />
+      {/* De onderruimte zit om main én footer heen, niet enkel om main: de
+          vaste balk overlapt anders de laatste regel van de footer. */}
+      <div className="flex flex-1 flex-col pb-[calc(4.5rem+env(safe-area-inset-bottom))] lg:pb-0">
+        <main className="flex-1">{children}</main>
+        <Footer />
+      </div>
       <StickyMobileBar />
     </>
   );

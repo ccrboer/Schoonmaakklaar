@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { Check, ArrowRight, MapPin, Euro, ShieldCheck } from "lucide-react";
+import { FeatureMark } from "@/components/ui/FeatureList";
 import type { LocalPageData } from "@/types";
 import { WhatsAppButton } from "@/components/conversion/WhatsAppButton";
 import { Faq } from "@/components/sections/Faq";
@@ -128,10 +129,7 @@ export function LocalSeoPageTemplate({ page }: LocalSeoPageTemplateProps) {
                 key={item}
                 className="flex items-start gap-3 rounded-2xl border border-hairline bg-surface p-5 text-sm leading-relaxed text-ink"
               >
-                <Check
-                  className="mt-0.5 h-4 w-4 shrink-0 text-accent-dark"
-                  aria-hidden="true"
-                />
+                <FeatureMark />
                 {item}
               </li>
             ))}
@@ -174,10 +172,7 @@ export function LocalSeoPageTemplate({ page }: LocalSeoPageTemplateProps) {
             <ul className="mt-6 space-y-3">
               {page.whatWeDo.map((item) => (
                 <li key={item} className="flex items-start gap-3">
-                  <Check
-                    className="mt-0.5 h-4.5 w-4.5 shrink-0 text-accent-dark"
-                    aria-hidden="true"
-                  />
+                  <FeatureMark />
                   <span className="text-sm leading-relaxed text-ink">
                     {item}
                   </span>

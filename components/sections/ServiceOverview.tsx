@@ -1,5 +1,6 @@
 import Link from "next/link";
-import { ArrowRight, Check } from "lucide-react";
+import { ArrowRight } from "lucide-react";
+import { FeatureMark } from "@/components/ui/FeatureList";
 import { services } from "@/config/services";
 
 interface ServiceOverviewProps {
@@ -66,10 +67,7 @@ export function ServiceOverview({
                         key={feature}
                         className="flex items-start gap-2 text-xs leading-relaxed text-ink-muted"
                       >
-                        <Check
-                          className="mt-0.5 h-3.5 w-3.5 shrink-0 text-accent-dark"
-                          aria-hidden="true"
-                        />
+                        <FeatureMark className="h-4 w-4" />
                         {feature}
                       </li>
                     ))}

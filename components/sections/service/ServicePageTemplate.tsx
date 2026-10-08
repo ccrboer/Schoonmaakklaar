@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { Check, ArrowRight, Plus, MapPin, Euro, Clock, ShieldCheck } from "lucide-react";
+import { FeatureMark } from "@/components/ui/FeatureList";
 import type { ServicePageData } from "@/types";
 import { WhatsAppButton } from "@/components/conversion/WhatsAppButton";
 import { Faq } from "@/components/sections/Faq";
@@ -197,10 +198,7 @@ export function ServicePageTemplate({ service }: ServicePageTemplateProps) {
                   key={situation}
                   className="flex items-start gap-3 rounded-2xl border border-hairline bg-white p-5 text-sm leading-relaxed text-ink shadow-soft"
                 >
-                  <Check
-                    className="mt-0.5 h-4 w-4 shrink-0 text-accent-dark"
-                    aria-hidden="true"
-                  />
+                  <FeatureMark />
                   {situation}
                 </li>
               ))}
@@ -230,10 +228,7 @@ export function ServicePageTemplate({ service }: ServicePageTemplateProps) {
                 key={item}
                 className="flex items-start gap-3 text-sm leading-relaxed text-ink"
               >
-                <Check
-                  className="mt-0.5 h-4.5 w-4.5 shrink-0 text-accent-dark"
-                  aria-hidden="true"
-                />
+                <FeatureMark />
                 {item}
               </li>
             ))}

@@ -1,7 +1,8 @@
 import Link from "next/link";
-import { MapPin, ArrowRight, Check } from "lucide-react";
+import { MapPin, ArrowRight } from "lucide-react";
 import { WhatsAppButton } from "@/components/conversion/WhatsAppButton";
 import { Photo } from "@/components/media/Photo";
+import { FeatureList } from "@/components/ui/FeatureList";
 import { siteImages } from "@/config/site-images";
 import { hasWhatsApp } from "@/config/site";
 
@@ -77,20 +78,12 @@ export function Hero() {
             )}
           </div>
 
-          <ul className="mt-9 grid max-w-lg gap-x-6 gap-y-2.5 sm:grid-cols-2">
-            {trustPoints.map((point) => (
-              <li
-                key={point}
-                className="flex items-start gap-2 text-sm text-white/80"
-              >
-                <Check
-                  className="mt-0.5 h-4 w-4 shrink-0 text-accent"
-                  aria-hidden="true"
-                />
-                {point}
-              </li>
-            ))}
-          </ul>
+          <FeatureList
+            items={trustPoints}
+            tone="dark"
+            columns
+            className="mt-9 max-w-lg"
+          />
         </div>
 
         {/* Merkbeeld */}

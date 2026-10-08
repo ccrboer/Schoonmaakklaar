@@ -1,6 +1,6 @@
 "use client";
 
-import { MessageCircle, Phone, ArrowRight } from "lucide-react";
+import { MessageCircle, Phone } from "lucide-react";
 import { siteConfig } from "@/config/site";
 import { buildWhatsAppLink } from "@/lib/whatsapp";
 import { trackEvent } from "@/lib/analytics";
@@ -12,9 +12,10 @@ interface PpcStickyBarProps {
 }
 
 /**
- * Vaste balk onderaan op mobiel. Anders dan op de gewone site verwijst de
- * hoofdknop hier niet naar /offerte maar naar het formulier op deze pagina
- * zelf: betaald verkeer mag de landingspagina niet verlaten.
+ * Vaste balk onderaan op mobiel. Zelfde vorm als op de rest van de site —
+ * drie losse knoppen op een lichte balk — maar de hoofdknop verwijst hier
+ * naar het formulier op deze pagina zelf: betaald verkeer mag de
+ * landingspagina niet verlaten.
  */
 export function PpcStickyBar({ ctaLabel, whatsappMessage }: PpcStickyBarProps) {
   const { contact } = siteConfig;
@@ -22,20 +23,25 @@ export function PpcStickyBar({ ctaLabel, whatsappMessage }: PpcStickyBarProps) {
     ? buildWhatsAppLink({ phone: contact.whatsapp, message: whatsappMessage })
     : null;
 
+  const stacked =
+    "flex min-h-12 flex-1 flex-col items-center justify-center gap-0.5 " +
+    "rounded-xl text-[0.6875rem] font-semibold transition-colors";
+
   return (
-    <div className="fixed inset-x-0 bottom-0 z-50 lg:hidden">
-      <div className="flex items-stretch gap-px border-t border-brand-dark bg-brand-dark pb-[env(safe-area-inset-bottom)]">
+    <div className="fixed inset-x-0 bottom-0 z-50 border-t border-hairline bg-white/95 backdrop-blur-md lg:hidden">
+      <div className="mx-auto flex max-w-lg items-stretch gap-2 px-3 py-2.5 pb-[max(0.625rem,env(safe-area-inset-bottom))]">
         {contact.phoneE164 && (
           <a
             href={`tel:${contact.phoneE164}`}
             onClick={() => trackEvent("phone_click")}
             aria-label={`Bel ${contact.phone}`}
-            className="flex w-16 shrink-0 flex-col items-center justify-center gap-0.5 bg-brand py-2.5 text-[0.7rem] font-semibold text-white"
+            className={`${stacked} border border-hairline bg-white text-ink hover:border-brand hover:text-brand`}
           >
-            <Phone className="h-5 w-5" aria-hidden="true" />
-            Bel
+            <Phone className="h-[18px] w-[18px]" aria-hidden="true" />
+            Bellen
           </a>
         )}
+
         {whatsappHref && (
           <a
             href={whatsappHref}
@@ -43,19 +49,19 @@ export function PpcStickyBar({ ctaLabel, whatsappMessage }: PpcStickyBarProps) {
             rel="noopener noreferrer"
             onClick={() => trackEvent("whatsapp_click")}
             aria-label="Stuur een bericht via WhatsApp"
-            className="flex w-16 shrink-0 flex-col items-center justify-center gap-0.5 bg-whatsapp py-2.5 text-[0.7rem] font-semibold text-white"
+            className={`${stacked} bg-whatsapp text-[#08301a] hover:bg-whatsapp-dark`}
           >
-            <MessageCircle className="h-5 w-5" aria-hidden="true" />
+            <MessageCircle className="h-[18px] w-[18px]" aria-hidden="true" />
             WhatsApp
           </a>
         )}
+
         <a
           href="#aanvraag"
           onClick={() => trackEvent("primary_cta_click", { plaats: "sticky" })}
-          className="flex min-w-0 flex-1 items-center justify-center gap-1.5 bg-accent px-3 py-3.5 text-sm font-semibold text-brand-dark"
+          className="flex min-h-12 flex-[1.4] items-center justify-center rounded-xl bg-brand px-4 text-center text-sm font-semibold text-white shadow-soft transition-colors hover:bg-brand-dark"
         >
-          <span className="truncate">{ctaLabel}</span>
-          <ArrowRight className="h-4 w-4 shrink-0" aria-hidden="true" />
+          {ctaLabel}
         </a>
       </div>
     </div>

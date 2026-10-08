@@ -1,8 +1,9 @@
-import { Check, MapPin } from "lucide-react";
+import { MapPin } from "lucide-react";
 import { Photo } from "@/components/media/Photo";
 import { WhatsAppButton } from "@/components/conversion/WhatsAppButton";
 import { CtaLink } from "@/components/ppc/CtaLink";
 import { OfferCard } from "@/components/ppc/OfferCard";
+import { FeatureList } from "@/components/ui/FeatureList";
 import type { PpcPageConfig } from "@/config/ppc-pages";
 
 interface PpcHeroProps {
@@ -40,20 +41,12 @@ export function PpcHero({ page }: PpcHeroProps) {
             {page.sub}
           </p>
 
-          <ul className="mt-6 grid max-w-lg gap-x-6 gap-y-2 sm:grid-cols-2">
-            {page.heroPoints.map((point) => (
-              <li
-                key={point}
-                className="flex items-start gap-2 text-sm text-white/80"
-              >
-                <Check
-                  className="mt-0.5 h-4 w-4 shrink-0 text-accent"
-                  aria-hidden="true"
-                />
-                {point}
-              </li>
-            ))}
-          </ul>
+          <FeatureList
+            items={page.heroPoints}
+            tone="dark"
+            columns
+            className="mt-6 max-w-lg"
+          />
 
           <div className="mt-7 flex flex-col gap-3 sm:flex-row sm:items-center">
             <CtaLink label={page.primaryCta} plaats="hero" tone="accent" />
