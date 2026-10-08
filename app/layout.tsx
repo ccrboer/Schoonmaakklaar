@@ -4,6 +4,11 @@ import { Inter, Manrope } from "next/font/google";
 import { siteConfig } from "@/config/site";
 import { OrganizationJsonLd } from "@/components/seo/JsonLd";
 import { ScrollReveal } from "@/components/ux/ScrollReveal";
+import {
+  GoogleTagManager,
+  GoogleTagManagerNoScript,
+  gtmId,
+} from "@/components/analytics/GoogleTagManager";
 import "./globals.css";
 
 const inter = Inter({
@@ -21,7 +26,12 @@ const manrope = Manrope({
 });
 
 // Meet-ID komt uit de omgeving. Zonder ID wordt er niets geladen of gemeten.
-const gtagId = process.env.NEXT_PUBLIC_GTAG_ID;
+//
+// Deze directe gtag-koppeling is er nog van vóór Google Tag Manager. Staat er
+// een GTM-container ingesteld, dan laadt gtag.js hier bewust NIET: dat zou
+// naast de container een tweede meetpad opleveren en, zodra er in GTM een
+// GA4-tag staat, elke paginaweergave dubbel tellen.
+const gtagId = gtmId ? undefined : process.env.NEXT_PUBLIC_GTAG_ID;
 
 export const metadata: Metadata = {
   metadataBase: new URL(siteConfig.url),
@@ -60,9 +70,12 @@ export default function RootLayout({
       className={`${inter.variable} ${manrope.variable} h-full antialiased`}
     >
       <body className="flex min-h-full flex-col">
+        <GoogleTagManagerNoScript />
         <OrganizationJsonLd />
         <ScrollReveal />
         {children}
+
+        <GoogleTagManager />
 
         {gtagId && (
           <>
