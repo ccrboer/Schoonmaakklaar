@@ -96,7 +96,8 @@ const sections: LegalSection[] = [
   {
     heading: "Cookies",
     paragraphs: [
-      "Deze website gebruikt momenteel enkel functionele en noodzakelijke cookies. Meer uitleg vindt u in ons cookiebeleid.",
+      "We gebruiken Google Tag Manager en, na uw toestemming, Google Analytics 4 voor statistieken. Marketingtoestemming is apart instelbaar. Optionele opslag is standaard geweigerd.",
+      "U kunt uw keuze via Cookievoorkeuren in de footer aanpassen. Het cookiebeleid beschrijft ook de beperkte cookieloze signalen die Google-tags bij geweigerde toestemming kunnen versturen.",
     ],
   },
   {
@@ -119,7 +120,7 @@ export default function PrivacybeleidPage() {
   return (
     <LegalPageTemplate
       title="Privacybeleid"
-      lastUpdated="Laatst bijgewerkt: 29 september 2026"
+      lastUpdated="Laatst bijgewerkt: 8 oktober 2026"
       intro="Hieronder leest u hoe wij omgaan met uw persoonsgegevens, offerteaanvragen, foto's van uw pand en de toegangsgegevens die wij bij periodiek onderhoud ontvangen."
       sections={sections}
       ctaHeading="Vragen over dit privacybeleid?"
