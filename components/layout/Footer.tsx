@@ -5,6 +5,7 @@ import { footerNav } from "@/config/navigation";
 import { CallButton } from "@/components/conversion/CallButton";
 import { MailLink } from "@/components/conversion/MailLink";
 import { Logo } from "@/components/layout/Logo";
+import { CookiePreferencesButton } from "@/components/analytics/CookiePreferencesButton";
 
 /**
  * Footer met merkblok, contactgegevens, navigatiekolommen en de juridische
@@ -108,6 +109,7 @@ export function Footer() {
           <p>
             © {year} {contact.legalName}. Alle rechten voorbehouden.
           </p>
+          <CookiePreferencesButton />
           {(contact.companyNumber || contact.vat) && (
             <p>
               {[

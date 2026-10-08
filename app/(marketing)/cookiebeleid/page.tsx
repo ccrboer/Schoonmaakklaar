@@ -32,15 +32,15 @@ const sections: LegalSection[] = [
   {
     heading: "Welke cookies gebruiken wij?",
     paragraphs: [
-      "Deze website gebruikt momenteel enkel functionele en noodzakelijke cookies. Die zijn nodig om de site te laten werken, bijvoorbeeld om uw offerteaanvraag veilig te versturen.",
-      "Er worden op dit moment geen advertentiecookies geplaatst en er wordt geen profiel van u opgebouwd voor marketingdoeleinden.",
+      "Noodzakelijke functies blijven altijd beschikbaar. Uw cookievoorkeuren bewaren we lokaal in uw browser.",
+      "Analyse (Google Analytics 4) en marketing/advertentiemetingen zijn optioneel. De toestemmingscategorieën staan standaard op geweigerd.",
     ],
   },
   {
     heading: "Statistieken en advertenties",
     paragraphs: [
-      "Wanneer wij later meetsoftware of advertentietools toevoegen — bijvoorbeeld om te zien welke pagina's het vaakst bekeken worden — passen wij dit cookiebeleid aan en vragen wij, waar dat wettelijk vereist is, vooraf uw toestemming.",
-      "Zolang dat niet gebeurd is, blijft deze pagina de actuele situatie beschrijven.",
+      "We gebruiken Google Tag Manager voor het beheren van meettags en Google Analytics 4 voor statistieken wanneer u toestemming geeft. Marketingtoestemming is een aparte keuze.",
+      "Consent Mode v2 voorkomt standaard analytische en advertentiecookieopslag. Google-tags kunnen bij geweigerde toestemming beperkte cookieloze signalen sturen.",
     ],
   },
   {
@@ -52,8 +52,8 @@ const sections: LegalSection[] = [
   {
     heading: "Cookies beheren of verwijderen",
     paragraphs: [
-      "U beheert cookies altijd zelf via de instellingen van uw browser. Daar kunt u bestaande cookies verwijderen of nieuwe blokkeren.",
-      "Houd er rekening mee dat het blokkeren van noodzakelijke cookies ervoor kan zorgen dat bepaalde onderdelen van de site, zoals het offerteformulier, niet meer correct werken.",
+      "Via Cookievoorkeuren in de footer kunt u toestemming op elk moment wijzigen of intrekken. Cookies verwijderen kan ook via de browserinstellingen.",
+      "Houd er rekening mee dat het blokkeren van noodzakelijke functies invloed kan hebben op onderdelen van de site.",
     ],
   },
   {
@@ -68,7 +68,7 @@ export default function CookiebeleidPage() {
   return (
     <LegalPageTemplate
       title="Cookiebeleid"
-      lastUpdated="Laatst bijgewerkt: 29 september 2026"
+      lastUpdated="Laatst bijgewerkt: 8 oktober 2026"
       intro="Hieronder leest u welke cookies deze website gebruikt, waarvoor ze dienen en hoe u ze zelf beheert."
       sections={sections}
       ctaHeading="Vragen over cookies of privacy?"

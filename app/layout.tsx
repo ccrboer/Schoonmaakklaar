@@ -7,8 +7,8 @@ import { ScrollReveal } from "@/components/ux/ScrollReveal";
 import {
   GoogleTagManager,
   GoogleTagManagerNoScript,
-  gtmId,
 } from "@/components/analytics/GoogleTagManager";
+import { CookieConsent } from "@/components/analytics/CookieConsent";
 import "./globals.css";
 
 const inter = Inter({
@@ -25,13 +25,29 @@ const manrope = Manrope({
   display: "swap",
 });
 
-// Meet-ID komt uit de omgeving. Zonder ID wordt er niets geladen of gemeten.
-//
-// Deze directe gtag-koppeling is er nog van vóór Google Tag Manager. Staat er
-// een GTM-container ingesteld, dan laadt gtag.js hier bewust NIET: dat zou
-// naast de container een tweede meetpad opleveren en, zodra er in GTM een
-// GA4-tag staat, elke paginaweergave dubbel tellen.
-const gtagId = gtmId ? undefined : process.env.NEXT_PUBLIC_GTAG_ID;
+// Consent Mode v2 moet vóór de GTM-container worden ingesteld.
+const consentBootstrap = `
+window.dataLayer = window.dataLayer || [];
+window.gtag = function() { window.dataLayer.push(arguments); };
+window.gtag('consent', 'default', {
+  analytics_storage: 'denied',
+  ad_storage: 'denied',
+  ad_user_data: 'denied',
+  ad_personalization: 'denied',
+  wait_for_update: 500
+});
+try {
+  var c = JSON.parse(localStorage.getItem('sck-consent-v1') || 'null');
+  if (c && c.version === 1 && typeof c.analytics === 'boolean' && typeof c.marketing === 'boolean') {
+    window.gtag('consent', 'update', {
+      analytics_storage: c.analytics ? 'granted' : 'denied',
+      ad_storage: c.marketing ? 'granted' : 'denied',
+      ad_user_data: c.marketing ? 'granted' : 'denied',
+      ad_personalization: c.marketing ? 'granted' : 'denied'
+    });
+  }
+} catch (_) {}
+`;
 
 export const metadata: Metadata = {
   metadataBase: new URL(siteConfig.url),
@@ -69,6 +85,11 @@ export default function RootLayout({
       lang="nl"
       className={`${inter.variable} ${manrope.variable} h-full antialiased`}
     >
+      <head>
+        <Script id="consent-v2-default" strategy="beforeInteractive">
+          {consentBootstrap}
+        </Script>
+      </head>
       <body className="flex min-h-full flex-col">
         <GoogleTagManagerNoScript />
         <OrganizationJsonLd />
@@ -77,20 +98,7 @@ export default function RootLayout({
 
         <GoogleTagManager />
 
-        {gtagId && (
-          <>
-            <Script
-              src={`https://www.googletagmanager.com/gtag/js?id=${gtagId}`}
-              strategy="afterInteractive"
-            />
-            <Script id="gtag-init" strategy="afterInteractive">
-              {`window.dataLayer = window.dataLayer || [];
-function gtag(){dataLayer.push(arguments);}
-gtag('js', new Date());
-gtag('config', '${gtagId}');`}
-            </Script>
-          </>
-        )}
+        <CookieConsent />
       </body>
     </html>
   );
